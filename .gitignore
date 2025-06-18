@@ -1,5 +1,6 @@
 # Rust target directory
 /target/
+Cargo.lock
 
 # Cargo lock file (if you prefer not to commit it, though it's often recommended for libraries too for reproducible builds)
 # For now, let's keep it, as it's common for applications and can be useful for consistent CI.
