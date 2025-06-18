@@ -1,0 +1,21 @@
+# Rust target directory
+/target/
+
+# Cargo lock file (if you prefer not to commit it, though it's often recommended for libraries too for reproducible builds)
+# For now, let's keep it, as it's common for applications and can be useful for consistent CI.
+# If we decide against it later, we can add Cargo.lock.
+# Cargo.lock
+
+# Rust toolchain files
+rust-toolchain
+rust-toolchain.toml
+
+# Editor configuration files
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# OS-specific files
+.DS_Store
+Thumbs.db
