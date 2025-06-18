@@ -1,0 +1,50 @@
+name: Rust CI
+
+on:
+  push:
+    branches: [ "main" ] # Or your default branch, e.g., "master"
+  pull_request:
+    branches: [ "main" ] # Or your default branch
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build_and_test:
+    name: Build and Test
+    runs-on: ubuntu-latest # Use a standard runner
+    steps:
+      - uses: actions/checkout@v4 # Checkout the repository code
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable # Use a community action to easily get Rust
+        with:
+          components: clippy, rustfmt # Install clippy and rustfmt along with the toolchain
+
+      - name: Cache Cargo dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/ # Cache the target directory to speed up subsequent builds
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Run cargo check
+        run: cargo check --verbose
+
+      - name: Run cargo build
+        run: cargo build --verbose
+
+      - name: Run cargo test
+        run: cargo test --verbose
+
+      - name: Run cargo clippy
+        run: cargo clippy -- -D warnings # Fail on warnings
+
+      - name: Check formatting (cargo fmt)
+        run: cargo fmt -- --check
